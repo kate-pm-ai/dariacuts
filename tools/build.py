@@ -136,6 +136,21 @@ def out_path(base, page):
     return base / page["slug"] / "index.html" if page["slug"] else base / "index.html"
 
 
+def build_viewer(docs):
+    """Витрина: вкладки по всем страницам + переключатель компьютер/телефон."""
+    tpl = (ROOT / "tools" / "viewer.html").read_text()
+    pre = CFG["preview_prefix"]
+    nav = "".join(f'<button data-page="{p["id"]}">{html.escape(p["tab"])}</button>' for p in CFG["pages"])
+    js = json.dumps({p["id"]: {"label": p["label"], "src": f'{pre}/{p["slug"] + "/" if p["slug"] else ""}'}
+                     for p in CFG["pages"]}, ensure_ascii=False)
+    a = tpl.index('<nav class="pages" aria-label="Страницы">') + len('<nav class="pages" aria-label="Страницы">')
+    tpl = tpl[:a] + nav + tpl[tpl.index("</nav>", a):]
+    a = tpl.index("const pages=") + len("const pages=")
+    tpl = tpl[:a] + js + tpl[tpl.index(";const stage", a):]
+    (docs / "preview").mkdir(parents=True, exist_ok=True)
+    (docs / "preview" / "index.html").write_text(tpl)
+
+
 def main():
     if "--refresh-standard" in sys.argv or not (STD / "icons.html").exists():
         refresh_standard()
@@ -162,6 +177,7 @@ def main():
             (base / "assets" / "images" / fname).write_bytes(data)
     shutil.copytree(ROOT / "vendor", docs, dirs_exist_ok=True)
     (docs / ".nojekyll").write_text("")
+    build_viewer(docs)
 
     readme = (ROOT / "tools" / "README-alexey.txt").read_text()
     pages_list = "\n".join(f"  {p['url']}  ->  {out_path(Path(''), p)}" for p in CFG["pages"])
