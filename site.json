@@ -1,0 +1,13 @@
+{
+  "site": "https://dariacuts.com",
+  "preview_prefix": "/dariacuts",
+  "og_image": "https://dariacuts.com/assets/images/og-cover.webp",
+  "image_prefix": "dc-",
+  "pages": [
+    {"id": "home", "src": "pages/home.html", "slug": "", "url": "https://dariacuts.com/"},
+    {"id": "youtube", "src": "pages/youtube.html", "slug": "youtube-video-editing-services", "url": "https://dariacuts.com/youtube-video-editing-services/"},
+    {"id": "short-form", "src": "pages/short-form.html", "slug": "short-form-video-editing", "url": "https://dariacuts.com/short-form-video-editing/"},
+    {"id": "2d-animation", "src": "pages/2d-animation.html", "slug": "2d-animation-services", "url": "https://dariacuts.com/2d-animation-services/"},
+    {"id": "motion-graphics", "src": "pages/motion-graphics.html", "slug": "motion-graphics-services", "url": "https://dariacuts.com/motion-graphics-services/"}
+  ]
+}

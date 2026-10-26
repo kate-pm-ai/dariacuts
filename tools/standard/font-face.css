@@ -1,0 +1,63 @@
+@font-face {
+  font-family: 'Baloo 2';
+  src: url('/assets/fonts/baloo-2-latin-600-normal.woff2') format('woff2');
+  font-style: normal;
+  font-weight: 600;
+  font-display: swap;
+  }
+@font-face {
+    font-family: 'Baloo 2';
+    src: url('/assets/fonts/baloo-2-latin-700-normal.woff2') format('woff2');
+    font-style: normal;
+    font-weight: 700;
+    font-display: swap;
+  }
+@font-face {
+    font-family: 'Baloo 2';
+    src: url('/assets/fonts/baloo-2-latin-800-normal.woff2') format('woff2');
+    font-style: normal;
+    font-weight: 800;
+    font-display: swap;
+  }
+@font-face {
+    font-family: 'Nunito';
+    src: url('/assets/fonts/nunito-latin-400-normal.woff2') format('woff2');
+    font-style: normal;
+    font-weight: 400;
+    font-display: swap;
+  }
+@font-face {
+    font-family: 'Nunito';
+    src: url('/assets/fonts/nunito-latin-500-normal.woff2') format('woff2');
+    font-style: normal;
+    font-weight: 500;
+    font-display: swap;
+  }
+@font-face {
+    font-family: 'Nunito';
+    src: url('/assets/fonts/nunito-latin-600-normal.woff2') format('woff2');
+    font-style: normal;
+    font-weight: 600;
+    font-display: swap;
+  }
+@font-face {
+    font-family: 'Nunito';
+    src: url('/assets/fonts/nunito-latin-700-normal.woff2') format('woff2');
+    font-style: normal;
+    font-weight: 700;
+    font-display: swap;
+  }
+@font-face {
+    font-family: 'Nunito';
+    src: url('/assets/fonts/nunito-latin-800-normal.woff2') format('woff2');
+    font-style: normal;
+    font-weight: 800;
+    font-display: swap;
+  }
+@font-face {
+    font-family: 'Nunito';
+    src: url('/assets/fonts/nunito-latin-400-italic.woff2') format('woff2');
+    font-style: italic;
+    font-weight: 400;
+    font-display: swap;
+  }
