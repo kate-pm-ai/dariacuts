@@ -16,7 +16,7 @@ from PIL import Image
 ROOT = Path(__file__).resolve().parent.parent
 STD = ROOT / "tools" / "standard"
 CFG = json.loads((ROOT / "site.json").read_text())
-AVIF_QUALITY = 80
+AVIF_QUALITY = 55
 
 GOOGLE_FONTS_RE = re.compile(
     r'[ \t]*<link[^>]*(?:fonts\.googleapis\.com|fonts\.gstatic\.com)[^>]*>\s*\n?')
@@ -65,8 +65,15 @@ def render_reviews(out, page_id):
                      f'<blockquote>“{e(r["quote"], quote=False)}”</blockquote>'
                      f'<cite>{e(r["name"])}{role}</cite></article>')
     out = out[:open_end] + "".join(cards) + out[close:]
-    if len(reviews) < 2:  # стрелки прокрутки не нужны
+    if len(reviews) < 2:  # один отзыв: без стрелок, широкой цитатой
         out = re.sub(r'<div class="review-controls"[^>]*>.*?</div>', "", out, count=1, flags=re.S)
+        out = out.replace('<div class="reviews"', '<div class="reviews reviews--single"', 1)
+        css = (".reviews.reviews--single{grid-auto-flow:row;grid-auto-columns:auto;grid-template-columns:1fr;overflow:visible}"
+               ".reviews.reviews--single .review{min-height:0;max-width:none;padding:var(--s6) clamp(24px,4vw,56px)}"
+               ".reviews.reviews--single .review blockquote{font-family:var(--font-body);font-weight:600;"
+               "font-size:clamp(18px,1.6vw,22px);line-height:1.6;max-width:880px}")
+        cut = out.index("</head>")
+        out = out[:cut] + "<style>" + css + "</style>\n" + out[cut:]
     return out
 
 
