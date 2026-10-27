@@ -50,6 +50,26 @@ def head_block():
     return f"{icons}\n{preload}\n<style>\n{faces}\n</style>\n"
 
 
+def render_reviews(out, page_id):
+    reviews = json.loads((ROOT / "reviews.json").read_text())
+    start = out.find('<div class="reviews"')
+    if start < 0:
+        return out
+    open_end = out.index(">", start) + 1
+    close = out.index("</article></div>", open_end) + len("</article>")
+    cards = []
+    for r in reviews:
+        e = html.escape
+        role = f"<span>{e(r['role'])}</span>" if r.get("role") else ""
+        cards.append(f'<article class="review"><h3>{e(r["title"])}</h3>'
+                     f'<blockquote>“{e(r["quote"], quote=False)}”</blockquote>'
+                     f'<cite>{e(r["name"])}{role}</cite></article>')
+    out = out[:open_end] + "".join(cards) + out[close:]
+    if len(reviews) < 2:  # стрелки прокрутки не нужны
+        out = re.sub(r'<div class="review-controls"[^>]*>.*?</div>', "", out, count=1, flags=re.S)
+    return out
+
+
 def label_of(tag, fallback):
     m = re.search(r'\salt="([^"]*)"', tag)
     text = html.unescape(m.group(1)) if m and m.group(1) else fallback
@@ -94,6 +114,9 @@ def transform(page, src_html, images):
         snippet = (STD / "back-to-top.html").read_text()
         cut = out.rindex("</body>")
         out = out[:cut] + snippet + out[cut:]
+
+    # 1б. отзывы: только настоящие, из reviews.json (одинаково на всех страницах)
+    out = render_reviews(out, page["id"])
 
     # 2. картинка для соцсетей
     og = CFG["og_image"]

@@ -4,7 +4,7 @@
 Запуск после build.py. Печатает по каждой странице «сошлось N из N»
 и список провалов. Код выхода 1, если хоть что-то не сошлось.
 """
-import json, re, sys, urllib.request
+import html, json, re, sys, urllib.request
 from html.parser import HTMLParser
 from pathlib import Path
 
@@ -113,8 +113,15 @@ def check_page(page, dist, docs):
 
     btt = (STD / "back-to-top.html").read_text()
     ok("кнопка «наверх» как на живом сайте", btt in out and out.count('id="backToTop"') == 1)
-    t_src, h1_src = parse(src)
-    t_out, h1_out = parse(out.replace(btt, ""))
+    reviews = json.loads((ROOT / "reviews.json").read_text())
+    sec = lambda h: re.search(r'<section[^>]*id="reviews".*?</section>', h, re.S)
+    rv = sec(out).group(0) if sec(out) else ""
+    ok("отзывы: только настоящие из reviews.json, дословно",
+       rv.count('class="review"') == len(reviews)
+       and all(html.escape(r["quote"], quote=False) in rv for r in reviews))
+    strip = lambda h: re.sub(r'<section[^>]*id="reviews".*?</section>', "", h, count=1, flags=re.S)
+    t_src, h1_src = parse(strip(src))
+    t_out, h1_out = parse(strip(out.replace(btt, "")))
     ok("ровно один H1", len(h1_out) == 1, str(len(h1_out)))
     ok("H1 как в оригинале", h1_out == h1_src)
     ok("title как в оригинале", meta(out, r"<title>(.*?)</title>") == meta(src, r"<title>(.*?)</title>"))
