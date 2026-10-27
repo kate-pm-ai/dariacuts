@@ -131,6 +131,9 @@ def transform(page, src_html, images):
     # 1б. отзывы: только настоящие, из reviews.json (одинаково на всех страницах)
     out = render_reviews(out, page["id"])
 
+    # 1в. YouTube как на главной и живом сайте: www.youtube.com/embed (nocookie не видит вход и чаще просит «не бот»)
+    out = out.replace("https://www.youtube-nocookie.com/embed/", "https://www.youtube.com/embed/")
+
     # 2. картинка для соцсетей
     og = CFG["og_image"]
     out = re.sub(r'(<meta property="og:image" content=")[^"]*(")', rf"\g<1>{og}\2", out)

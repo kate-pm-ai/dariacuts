@@ -95,6 +95,7 @@ def check_page(page, dist, docs):
        (STD / "preload.html").read_text().strip() in out and out.count("@font-face") == 9)
     ok("og:image = og-cover.webp", meta(out, r'og:image" content="([^"]+)"') == og)
     ok("twitter:image = og-cover.webp", meta(out, r'twitter:image" content="([^"]+)"') == og)
+    ok("YouTube встроен как на живом сайте (youtube.com/embed)", "youtube-nocookie.com" not in out)
     ok("нет зашитых base64-картинок", not re.search(r"data:image/[a-z+]+;base64", out))
 
     missing = []
