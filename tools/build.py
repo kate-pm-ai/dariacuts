@@ -78,7 +78,7 @@ def render_reviews(out, page_id):
                      f'<cite>{e(r["name"])}{role}</cite></article>')
     out = out[:open_end] + "".join(cards) + out[close:]
     rv_css = (".review blockquote{font-family:var(--font-body);font-weight:600;font-size:17px;line-height:1.6}"
-              ".review cite{margin-top:auto}")
+              ".review cite{margin-top:var(--s4)}.reviews{align-items:start}.review{min-height:0}")
     if len(reviews) <= 3:  # на десктопе три карточки видны целиком, стрелки не нужны
         rv_css += "@media(min-width:761px){.review-controls{display:none}}"
     cut = out.index("</head>")
