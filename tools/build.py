@@ -139,6 +139,11 @@ def transform(page, src_html, images):
     url = page["url"]
     out = re.sub(r'(<link rel="canonical" href=")[^"]*(")', rf"\g<1>{url}\2", out)
     out = re.sub(r'(<meta property="og:url" content=")[^"]*(")', rf"\g<1>{url}\2", out)
+    # тот же адрес везде, включая микроразметку: вариант со слэшем на конце -> адрес из site.json
+    for p in CFG["pages"]:
+        if p["slug"]:
+            for variant in (f'{CFG["site"]}/{p["slug"]}/', f'{CFG["site"]}/{p["slug"]}'):
+                out = re.sub(re.escape(variant) + r'(?=["\s<])', p["url"], out)
 
     # 4. картинки работ: base64 и img/ -> /assets/images/*.avif
     def sub_data(m):

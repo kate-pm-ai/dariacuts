@@ -130,7 +130,12 @@ def check_page(page, dist, docs):
     ok("видимый текст совпадает на 100%", t_out == t_src,
        "" if t_out == t_src else f"длина {len(t_src)} -> {len(t_out)}")
 
-    ld = lambda h: [x.replace("https://dariacuts.com/images/og-cover.jpg", og)
+    def norm_urls(x):
+        for p in CFG["pages"]:
+            if p["slug"]:
+                x = re.sub(re.escape(f'{CFG["site"]}/{p["slug"]}') + r'/?(?=")', p["url"], x)
+        return x
+    ld = lambda h: [norm_urls(x).replace("https://dariacuts.com/images/og-cover.jpg", og)
                     for x in re.findall(r'<script type="application/ld\+json">(.*?)</script>', h, re.S)]
     ok("микроразметка не изменилась (кроме адреса картинки)", ld(out) == ld(src))
 
@@ -139,6 +144,9 @@ def check_page(page, dist, docs):
 
     ok("canonical = адрес из ТЗ", meta(out, r'rel="canonical" href="([^"]+)"') == page["url"])
     ok("og:url = адрес из ТЗ", meta(out, r'og:url" content="([^"]+)"') == page["url"])
+    stray = [u for p in CFG["pages"] if p["slug"]
+             for u in re.findall(re.escape(f'{CFG["site"]}/{p["slug"]}') + r'/?(?=["\s<])', out) if u != p["url"]]
+    ok("адреса страниц везде в одном варианте", not stray, ", ".join(sorted(set(stray))))
     ok("в архиве нет noindex", "noindex" not in out)
     ok("в предпросмотре noindex стоит", 'content="noindex,nofollow,noarchive"' in prev)
 
