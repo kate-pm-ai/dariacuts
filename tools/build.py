@@ -180,12 +180,6 @@ def transform(page, src_html, images):
         cut = out.rindex("</body>")
         out = out[:cut] + snippet + out[cut:]
 
-    # 1д. видео играет прямо в карточке (tools/standard/inline-video.html)
-    if "video-launch" in out and "video-inline" not in out:
-        snip = (STD / "inline-video.html").read_text()
-        cut = out.rindex("</body>")
-        out = out[:cut] + snip + out[cut:]
-
     # 1б. отзывы: только настоящие, из reviews.json (одинаково на всех страницах)
     out = render_reviews(out, page["id"])
 
