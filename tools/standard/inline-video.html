@@ -1,0 +1,27 @@
+<!-- Видео запускается прямо в карточке, по клику на превью (как на живом сайте dariacuts.com), без всплывающего окна -->
+<style>
+  .video-inline{position:relative;overflow:hidden;background:#000}
+  .video-inline iframe{position:absolute;inset:0;width:100%;height:100%;border:0}
+</style>
+<script>
+  document.addEventListener('click', function (e) {
+    var btn = e.target.closest('.video-launch');
+    if (!btn || !btn.dataset.video) return;
+    e.preventDefault();
+    e.stopImmediatePropagation();
+    var r = btn.getBoundingClientRect();
+    var box = document.createElement('div');
+    box.className = btn.className.replace('video-launch', 'video-inline');
+    box.style.width = r.width + 'px';
+    box.style.height = r.height + 'px';
+    var src = btn.dataset.video;
+    var f = document.createElement('iframe');
+    f.src = src + (src.indexOf('?') > -1 ? '&' : '?') + 'autoplay=1&playsinline=1';
+    f.title = btn.dataset.title || 'Video';
+    f.allow = 'autoplay; fullscreen; picture-in-picture; encrypted-media';
+    f.allowFullscreen = true;
+    f.referrerPolicy = 'strict-origin-when-cross-origin';
+    box.appendChild(f);
+    btn.replaceWith(box);
+  }, true);
+</script>
