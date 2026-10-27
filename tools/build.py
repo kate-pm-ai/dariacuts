@@ -86,7 +86,8 @@ def render_reviews(out, page_id):
         out = out[:end] + dots + out[end:]
         rv_css += (".reviews.reviews--slider{grid-auto-flow:column;grid-auto-columns:100%;align-items:start;gap:var(--s5)}"
                    ".reviews--slider .review{min-height:0;padding:var(--s6) clamp(24px,4vw,56px)}"
-                   ".reviews.reviews--slider{overflow-y:hidden;scrollbar-width:none;padding-bottom:2px;transition:height .3s ease}"
+                   ".reviews.reviews--slider{overflow-y:hidden;scrollbar-width:none;padding-bottom:2px;align-items:stretch}"
+                   ".reviews--slider .review{justify-content:center}"
                    ".reviews--slider::-webkit-scrollbar{display:none}"
                    ".review-dots{display:flex;justify-content:center;gap:10px;margin-top:var(--s5)}"
                    ".review-dots button{width:10px;height:10px;padding:0;border-radius:50%;border:1px solid var(--c-ink);"
@@ -95,7 +96,7 @@ def render_reviews(out, page_id):
 if(!t||!d)return;const cards=[...t.querySelectorAll('.review')];
 cards.forEach((c,i)=>{const b=document.createElement('button');b.type='button';b.setAttribute('role','tab');
 b.setAttribute('aria-label','Review '+(i+1));b.addEventListener('click',()=>t.scrollTo({left:c.offsetLeft-t.offsetLeft,behavior:'smooth'}));d.appendChild(b)});
-const sync=()=>{const step=(cards[1]?cards[1].offsetLeft-cards[0].offsetLeft:cards[0].offsetWidth)||1;const i=Math.round(t.scrollLeft/step);[...d.children].forEach((b,j)=>b.setAttribute('aria-selected',String(j===i)));const c=cards[Math.min(i,cards.length-1)];if(c)t.style.height=(c.offsetHeight+4)+'px'};addEventListener('resize',()=>sync());
+const sync=()=>{const step=(cards[1]?cards[1].offsetLeft-cards[0].offsetLeft:cards[0].offsetWidth)||1;const i=Math.round(t.scrollLeft/step);[...d.children].forEach((b,j)=>b.setAttribute('aria-selected',String(j===i)))};
 t.addEventListener('scroll',()=>requestAnimationFrame(sync),{passive:true});sync();})();</script>\n"""
         cut = out.rindex("</body>")
         out = out[:cut] + js + out[cut:]
