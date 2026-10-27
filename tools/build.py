@@ -77,10 +77,28 @@ def render_reviews(out, page_id):
                      f'<blockquote>“{"<br>".join(e(x, quote=False) for x in r["quote"].split(chr(10)))}”</blockquote>'
                      f'<cite>{e(r["name"])}{role}</cite></article>')
     out = out[:open_end] + "".join(cards) + out[close:]
-    rv_css = (".review blockquote{font-family:var(--font-body);font-weight:600;font-size:17px;line-height:1.6}"
-              ".review cite{margin-top:var(--s4)}.reviews{align-items:start}.review{min-height:0}")
-    if len(reviews) <= 3:  # на десктопе три карточки видны целиком, стрелки не нужны
-        rv_css += "@media(min-width:761px){.review-controls{display:none}}"
+    rv_css = (".review blockquote{font-family:var(--font-body);font-weight:600;font-size:clamp(17px,1.5vw,21px);"
+              "line-height:1.6;max-width:880px}.review cite{margin-top:var(--s4)}")
+    if len(reviews) >= 2:  # слайдер: одна широкая карточка за раз + точки
+        out = out.replace('<div class="reviews"', '<div class="reviews reviews--slider"', 1)
+        dots = '<div class="review-dots" role="tablist" aria-label="Choose review"></div>'
+        end = out.index("</article></div>", out.index('<div class="reviews reviews--slider"')) + len("</article></div>")
+        out = out[:end] + dots + out[end:]
+        rv_css += (".reviews.reviews--slider{grid-auto-flow:column;grid-auto-columns:100%;align-items:start;gap:var(--s5)}"
+                   ".reviews--slider .review{min-height:0;padding:var(--s6) clamp(24px,4vw,56px)}"
+                   ".reviews.reviews--slider{overflow-y:hidden;scrollbar-width:none;padding-bottom:2px;transition:height .3s ease}"
+                   ".reviews--slider::-webkit-scrollbar{display:none}"
+                   ".review-dots{display:flex;justify-content:center;gap:10px;margin-top:var(--s5)}"
+                   ".review-dots button{width:10px;height:10px;padding:0;border-radius:50%;border:1px solid var(--c-ink);"
+                   "background:transparent;cursor:pointer}.review-dots button[aria-selected=true]{background:var(--c-ink)}")
+        js = """<script>(function(){const t=document.querySelector('.reviews--slider'),d=document.querySelector('.review-dots');
+if(!t||!d)return;const cards=[...t.querySelectorAll('.review')];
+cards.forEach((c,i)=>{const b=document.createElement('button');b.type='button';b.setAttribute('role','tab');
+b.setAttribute('aria-label','Review '+(i+1));b.addEventListener('click',()=>t.scrollTo({left:c.offsetLeft-t.offsetLeft,behavior:'smooth'}));d.appendChild(b)});
+const sync=()=>{const step=(cards[1]?cards[1].offsetLeft-cards[0].offsetLeft:cards[0].offsetWidth)||1;const i=Math.round(t.scrollLeft/step);[...d.children].forEach((b,j)=>b.setAttribute('aria-selected',String(j===i)));const c=cards[Math.min(i,cards.length-1)];if(c)t.style.height=(c.offsetHeight+4)+'px'};addEventListener('resize',()=>sync());
+t.addEventListener('scroll',()=>requestAnimationFrame(sync),{passive:true});sync();})();</script>\n"""
+        cut = out.rindex("</body>")
+        out = out[:cut] + js + out[cut:]
     cut = out.index("</head>")
     out = out[:cut] + "<style>" + rv_css + "</style>\n" + out[cut:]
     if len(reviews) < 2:  # один отзыв: без стрелок, широкой цитатой
