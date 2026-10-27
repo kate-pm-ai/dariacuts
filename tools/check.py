@@ -118,7 +118,9 @@ def check_page(page, dist, docs):
     rv = sec(out).group(0) if sec(out) else ""
     ok("отзывы: только настоящие из reviews.json, дословно",
        rv.count('class="review"') == len(reviews)
-       and all(html.escape(r["quote"], quote=False) in rv for r in reviews))
+       and all(html.escape(x, quote=False) in rv for r in reviews for x in r["quote"].split("\n"))
+       and all(html.escape(r["name"]) in rv for r in reviews)
+       and all("<br>".join(html.escape(x, quote=False) for x in r["quote"].split("\n")) in rv for r in reviews))
     strip = lambda h: re.sub(r'<section[^>]*id="reviews".*?</section>', "", h, count=1, flags=re.S)
     t_src, h1_src = parse(strip(src))
     t_out, h1_out = parse(strip(out.replace(btt, "")))

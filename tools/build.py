@@ -62,9 +62,15 @@ def render_reviews(out, page_id):
         e = html.escape
         role = f"<span>{e(r['role'])}</span>" if r.get("role") else ""
         cards.append(f'<article class="review"><h3>{e(r["title"])}</h3>'
-                     f'<blockquote>“{e(r["quote"], quote=False)}”</blockquote>'
+                     f'<blockquote>“{"<br>".join(e(x, quote=False) for x in r["quote"].split(chr(10)))}”</blockquote>'
                      f'<cite>{e(r["name"])}{role}</cite></article>')
     out = out[:open_end] + "".join(cards) + out[close:]
+    rv_css = (".review blockquote{font-family:var(--font-body);font-weight:600;font-size:17px;line-height:1.6}"
+              ".review cite{margin-top:auto}")
+    if len(reviews) <= 3:  # на десктопе три карточки видны целиком, стрелки не нужны
+        rv_css += "@media(min-width:761px){.review-controls{display:none}}"
+    cut = out.index("</head>")
+    out = out[:cut] + "<style>" + rv_css + "</style>\n" + out[cut:]
     if len(reviews) < 2:  # один отзыв: без стрелок, широкой цитатой
         out = re.sub(r'<div class="review-controls"[^>]*>.*?</div>', "", out, count=1, flags=re.S)
         out = out.replace('<div class="reviews"', '<div class="reviews reviews--single"', 1)
