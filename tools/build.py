@@ -50,6 +50,18 @@ def head_block():
     return f"{icons}\n{preload}\n<style>\n{faces}\n</style>\n"
 
 
+def home_schema(out):
+    live_block = (STD / "home-schema.html").read_text().strip()
+    blocks = list(re.finditer(r'<script type="application/ld\+json">(.*?)</script>', out, re.S))
+    drop = [m for m in blocks if re.search(r'"@type"\s*:\s*"(Person|ProfessionalService)"', m.group(1))]
+    if not drop:
+        return out
+    first = drop[0]
+    for m in reversed(drop[1:]):
+        out = out[:m.start()] + out[m.end():]
+    return out[:first.start()] + live_block + out[first.end():]
+
+
 def render_reviews(out, page_id):
     reviews = json.loads((ROOT / "reviews.json").read_text())
     start = out.find('<div class="reviews"')
@@ -133,6 +145,10 @@ def transform(page, src_html, images):
 
     # 1в. YouTube как на главной и живом сайте: www.youtube.com/embed (nocookie не видит вход и чаще просит «не бот»)
     out = out.replace("https://www.youtube-nocookie.com/embed/", "https://www.youtube.com/embed/")
+
+    # 1г. главная: микроразметка Person + ProfessionalService как у Алексея на живой главной (дословно), FAQPage наш
+    if page["id"] == "home":
+        out = home_schema(out)
 
     # 2. картинка для соцсетей
     og = CFG["og_image"]

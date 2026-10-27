@@ -140,7 +140,13 @@ def check_page(page, dist, docs):
         return x
     ld = lambda h: [norm_urls(x).replace("https://dariacuts.com/images/og-cover.jpg", og)
                     for x in re.findall(r'<script type="application/ld\+json">(.*?)</script>', h, re.S)]
-    ok("микроразметка не изменилась (кроме адреса картинки)", ld(out) == ld(src))
+    if page["id"] == "home":
+        live_ld = (STD / "home-schema.html").read_text().strip()
+        faq = lambda h: [x for x in ld(h) if '"FAQPage"' in x]
+        ok("микроразметка главной: блок Алексея дословно + наш FAQ", live_ld in out and faq(out) == faq(src)
+           and len(re.findall(r'application/ld\+json', out)) == 2)
+    else:
+        ok("микроразметка не изменилась (кроме адреса картинки)", ld(out) == ld(src))
 
     for marker in ("GTM-M48NZGMV", "cookieconsent@3.1.0", "Cookie settings", "Reject"):
         ok(f"на месте {marker}", out.count(marker) == src.count(marker) and out.count(marker) > 0)
