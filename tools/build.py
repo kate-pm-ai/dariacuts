@@ -50,6 +50,27 @@ def head_block():
     return f"{icons}\n{preload}\n<style>\n{faces}\n</style>\n"
 
 
+def service_schema(out, page):
+    live = json.loads(re.search(r"<script[^>]*>(.*)</script>", (STD / "home-schema.html").read_text(), re.S).group(1))
+    live_service = next(o for o in live["@graph"] if o["@type"] == "ProfessionalService")
+    blocks = list(re.finditer(r'<script type="application/ld\+json">(.*?)</script>', out, re.S))
+    old_ps = next((json.loads(m.group(1)) for m in blocks if '"ProfessionalService"' in m.group(1)), None)
+    drop = [m for m in blocks if re.search(r'"@type"\s*:\s*"(Person|ProfessionalService)"', m.group(1))]
+    if not old_ps or not drop:
+        return out
+    svc = {"@context": "https://schema.org", "@type": "Service",
+           "name": old_ps["name"], "serviceType": old_ps.get("serviceType"),
+           "url": page["url"], "description": old_ps["description"],
+           "provider": {"@id": live_service["@id"]},
+           "areaServed": live_service["areaServed"]}
+    svc = {k: v for k, v in svc.items() if v}
+    block = '<script type="application/ld+json">' + json.dumps(svc, ensure_ascii=False) + "</script>"
+    first = drop[0]
+    for m in reversed(drop[1:]):
+        out = out[:m.start()] + out[m.end():]
+    return out[:first.start()] + block + out[first.end():]
+
+
 def home_schema(out):
     live_block = (STD / "home-schema.html").read_text().strip()
     blocks = list(re.finditer(r'<script type="application/ld\+json">(.*?)</script>', out, re.S))
@@ -170,6 +191,10 @@ def transform(page, src_html, images):
 
     # 1в. YouTube как на главной и живом сайте: www.youtube.com/embed (nocookie не видит вход и чаще просит «не бот»)
     out = out.replace("https://www.youtube-nocookie.com/embed/", "https://www.youtube.com/embed/")
+
+    # 1г'. страницы услуг: Service с provider -> #service главной (Алексей); Person не дублируем; FAQ как есть
+    if page["slug"]:
+        out = service_schema(out, page)
 
     # 1г. главная: микроразметка Person + ProfessionalService как у Алексея на живой главной (дословно), FAQPage наш
     if page["id"] == "home":

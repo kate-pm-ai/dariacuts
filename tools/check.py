@@ -148,7 +148,15 @@ def check_page(page, dist, docs):
         ok("микроразметка главной: блок Алексея дословно + наш FAQ", live_ld in out and faq(out) == faq(src)
            and len(re.findall(r'application/ld\+json', out)) == 2)
     else:
-        ok("микроразметка не изменилась (кроме адреса картинки)", ld(out) == ld(src))
+        blocks = [json.loads(x) for x in re.findall(r'<script type="application/ld\+json">(.*?)</script>', out, re.S)]
+        types = [x.get("@type") for x in blocks]
+        svc = next((x for x in blocks if x.get("@type") == "Service"), {})
+        faq = lambda h: [x for x in ld(h) if '"FAQPage"' in x]
+        ok("микроразметка услуги связана с главной (Service -> #service), FAQ как был",
+           sorted(types) == ["FAQPage", "Service"] and svc.get("url") == page["url"]
+           and svc.get("provider") == {"@id": "https://dariacuts.com/#service"}
+           and svc.get("description") == meta(out, r'name="description" content="([^"]*)"')
+           and faq(out) == faq(src))
 
     for marker in ("GTM-M48NZGMV", "cookieconsent@3.1.0", "Cookie settings", "Reject"):
         ok(f"на месте {marker}", out.count(marker) == src.count(marker) and out.count(marker) > 0)
