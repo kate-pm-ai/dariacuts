@@ -180,6 +180,11 @@ def transform(page, src_html, images):
         cut = out.rindex("</body>")
         out = out[:cut] + snippet + out[cut:]
 
+    # 1е. ссылка «Open original video» под плеером не нужна: заголовок в плеере и так ведет на оригинал
+    if 'id="video-original"' in out and "#video-original{display:none" not in out:
+        cut = out.index("</head>")
+        out = out[:cut] + "<style>#video-original{display:none!important}</style>\n" + out[cut:]
+
     # 1б. отзывы: только настоящие, из reviews.json (одинаково на всех страницах)
     out = render_reviews(out, page["id"])
 

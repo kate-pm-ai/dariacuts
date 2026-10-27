@@ -97,6 +97,7 @@ def check_page(page, dist, docs):
     ok("twitter:image = og-cover.webp", meta(out, r'twitter:image" content="([^"]+)"') == og)
     ok("YouTube встроен как на живом сайте (youtube.com/embed)", "youtube-nocookie.com" not in out)
     ok("видео открываются в большом окне", "video-inline" not in out)
+    ok("ссылка «Open original video» скрыта", 'id="video-original"' not in out or "#video-original{display:none" in out)
     ok("нет зашитых base64-картинок", not re.search(r"data:image/[a-z+]+;base64", out))
 
     missing = []
