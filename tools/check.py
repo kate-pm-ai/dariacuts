@@ -111,8 +111,10 @@ def check_page(page, dist, docs):
        all(s.startswith("/assets/images/") and s.endswith(".avif") for s in raster),
        ", ".join(s for s in raster if not s.endswith(".avif")))
 
+    btt = (STD / "back-to-top.html").read_text()
+    ok("кнопка «наверх» как на живом сайте", btt in out and out.count('id="backToTop"') == 1)
     t_src, h1_src = parse(src)
-    t_out, h1_out = parse(out)
+    t_out, h1_out = parse(out.replace(btt, ""))
     ok("ровно один H1", len(h1_out) == 1, str(len(h1_out)))
     ok("H1 как в оригинале", h1_out == h1_src)
     ok("title как в оригинале", meta(out, r"<title>(.*?)</title>") == meta(src, r"<title>(.*?)</title>"))

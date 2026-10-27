@@ -89,6 +89,12 @@ def transform(page, src_html, images):
     out = out[:first.start()] + "__HEAD_BLOCK__\n" + out[first.start():]
     out = GOOGLE_FONTS_RE.sub("", out).replace("__HEAD_BLOCK__\n", head_block(), 1)
 
+    # 1а. кнопка «наверх» как на живом сайте (tools/standard/back-to-top.html)
+    if 'id="backToTop"' not in out:
+        snippet = (STD / "back-to-top.html").read_text()
+        cut = out.rindex("</body>")
+        out = out[:cut] + snippet + out[cut:]
+
     # 2. картинка для соцсетей
     og = CFG["og_image"]
     out = re.sub(r'(<meta property="og:image" content=")[^"]*(")', rf"\g<1>{og}\2", out)
