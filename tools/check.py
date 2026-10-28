@@ -125,7 +125,13 @@ def check_page(page, dist, docs):
        and all(html.escape(r["name"]) in rv for r in reviews)
        and all("<br>".join(html.escape(x, quote=False) for x in r["quote"].split("\n")) in rv for r in reviews))
     ok("точки слайдера внутри блока отзывов", len(reviews) < 2 or '</article></div><div class="review-dots"' in rv)
-    strip = lambda h: re.sub(r'<section[^>]*id="reviews".*?</section>', "", h, count=1, flags=re.S)
+    menu = re.search(r'<div class="services-menu-panel">(.*?)</div>', out, re.S)
+    links = re.findall(r'<a href="([^"]+)">', menu.group(1)) if menu else []
+    want = ["/" + p["slug"] for p in CFG["pages"] if p["slug"]]
+    ok("меню Services: только готовые страницы, ссылками", sorted(x for x in links if not x.startswith(("/#", "#"))) == sorted(want)
+       and "data-future-url" not in menu.group(1))
+    ok("меню закрывается по клику мимо", "details.services-menu[open]" in out)
+    strip = lambda h: re.sub(r'<div class="services-menu-panel">.*?</div>', "", re.sub(r'<section[^>]*id="reviews".*?</section>', "", h, count=1, flags=re.S), count=1, flags=re.S)
     t_src, h1_src = parse(strip(src))
     t_out, h1_out = parse(strip(out.replace(btt, "")))
     ok("ровно один H1", len(h1_out) == 1, str(len(h1_out)))

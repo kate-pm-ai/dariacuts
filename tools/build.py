@@ -83,6 +83,40 @@ def home_schema(out):
     return out[:first.start()] + live_block + out[first.end():]
 
 
+def link_services(out):
+    live = {"/" + p["slug"]: p for p in CFG["pages"] if p["slug"]}
+    norm = lambda u: "/" + u.strip("/") if u.strip("/") else ""
+
+    def panel(m):
+        inner = m.group(2)
+        def item(s):
+            u = norm(s.group(1))
+            return f'<a href="{u}">{s.group(2)}</a>' if u in live else ""
+        return m.group(1) + re.sub(r'<span data-future-url="([^"]*)">(.*?)</span>', item, inner) + m.group(3)
+    out = re.sub(r'(<div class="services-menu-panel">)(.*?)(</div>)', panel, out, flags=re.S)
+
+    def card(m):
+        u = norm(m.group(2))
+        if u not in live:
+            return m.group(0)
+        title = re.search(r"<h3>(.*?)</h3>", m.group(3), re.S)
+        label = html.escape(re.sub("<[^>]+>", "", title.group(1)) if title else "Service", quote=True)
+        return f'{m.group(1)}{m.group(3)}<a class="service-link" href="{u}" aria-label="{label}"></a></article>'
+    out = re.sub(r'(<article class="service" data-future-url="([^"]*)">)(.*?)</article>', card, out, flags=re.S)
+
+    css = (".service{position:relative}.service-link{position:absolute;inset:0;border-radius:inherit;z-index:1}"
+           ".service:has(.service-link){cursor:pointer;transition:transform .2s ease,box-shadow .2s ease}"
+           ".service:has(.service-link):hover{transform:translateY(-3px);box-shadow:0 8px 20px #0002}")
+    js = ("<script>document.addEventListener('click',function(e){document.querySelectorAll('details.services-menu[open]')"
+          ".forEach(function(d){if(!d.contains(e.target))d.removeAttribute('open')})});"
+          "document.addEventListener('keydown',function(e){if(e.key==='Escape')document.querySelectorAll('details.services-menu[open]')"
+          ".forEach(function(d){d.removeAttribute('open')})});</script>\n")
+    cut = out.index("</head>")
+    out = out[:cut] + "<style>" + css + "</style>\n" + out[cut:]
+    cut = out.rindex("</body>")
+    return out[:cut] + js + out[cut:]
+
+
 def render_reviews(out, page_id):
     reviews = json.loads((ROOT / "reviews.json").read_text())
     start = out.find('<div class="reviews"')
@@ -184,6 +218,9 @@ def transform(page, src_html, images):
     if 'id="video-original"' in out and "#video-original{display:none" not in out:
         cut = out.index("</head>")
         out = out[:cut] + "<style>#video-original{display:none!important}</style>\n" + out[cut:]
+
+    # 1ж. меню Services: только готовые страницы, ссылками; карточки готовых услуг кликабельны; меню закрывается по клику мимо
+    out = link_services(out)
 
     # 1б. отзывы: только настоящие, из reviews.json (одинаково на всех страницах)
     out = render_reviews(out, page["id"])
