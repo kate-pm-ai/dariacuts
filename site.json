@@ -16,7 +16,7 @@
       "id": "youtube",
       "src": "pages/youtube.html",
       "slug": "youtube-video-editing-services",
-      "url": "https://dariacuts.com/youtube-video-editing-services",
+      "url": "https://dariacuts.com/youtube-video-editing-services/",
       "tab": "YouTube",
       "label": "YouTube Video Editing"
     },
@@ -24,7 +24,7 @@
       "id": "short-form",
       "src": "pages/short-form.html",
       "slug": "short-form-video-editing",
-      "url": "https://dariacuts.com/short-form-video-editing",
+      "url": "https://dariacuts.com/short-form-video-editing/",
       "tab": "Short Form",
       "label": "Short-Form Video Editing"
     },
@@ -32,7 +32,7 @@
       "id": "2d-animation",
       "src": "pages/2d-animation.html",
       "slug": "2d-animation-services",
-      "url": "https://dariacuts.com/2d-animation-services",
+      "url": "https://dariacuts.com/2d-animation-services/",
       "tab": "2D Animation",
       "label": "2D Animation Services"
     },
@@ -40,7 +40,7 @@
       "id": "motion-graphics",
       "src": "pages/motion-graphics.html",
       "slug": "motion-graphics-services",
-      "url": "https://dariacuts.com/motion-graphics-services",
+      "url": "https://dariacuts.com/motion-graphics-services/",
       "tab": "Motion Graphics",
       "label": "Motion Graphics Services"
     }

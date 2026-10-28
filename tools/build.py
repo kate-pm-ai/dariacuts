@@ -84,8 +84,8 @@ def home_schema(out):
 
 
 def link_services(out):
-    live = {"/" + p["slug"]: p for p in CFG["pages"] if p["slug"]}
-    norm = lambda u: "/" + u.strip("/") if u.strip("/") else ""
+    live = {"/" + p["slug"] + "/": p for p in CFG["pages"] if p["slug"]}
+    norm = lambda u: "/" + u.strip("/") + "/" if u.strip("/") else ""
 
     def panel(m):
         inner = m.group(2)

@@ -127,7 +127,7 @@ def check_page(page, dist, docs):
     ok("точки слайдера внутри блока отзывов", len(reviews) < 2 or '</article></div><div class="review-dots"' in rv)
     menu = re.search(r'<div class="services-menu-panel">(.*?)</div>', out, re.S)
     links = re.findall(r'<a href="([^"]+)">', menu.group(1)) if menu else []
-    want = ["/" + p["slug"] for p in CFG["pages"] if p["slug"]]
+    want = ["/" + p["slug"] + "/" for p in CFG["pages"] if p["slug"]]
     ok("меню Services: только готовые страницы, ссылками", sorted(x for x in links if not x.startswith(("/#", "#"))) == sorted(want)
        and "data-future-url" not in menu.group(1))
     ok("меню закрывается по клику мимо", "details.services-menu[open]" in out)
