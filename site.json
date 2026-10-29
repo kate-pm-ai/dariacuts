@@ -51,6 +51,14 @@
       "url": "https://dariacuts.com/contact/",
       "tab": "Contacts",
       "label": "Contacts"
+    },
+    {
+      "id": "portfolio",
+      "src": "pages/portfolio.html",
+      "slug": "portfolio",
+      "url": "https://dariacuts.com/portfolio/",
+      "tab": "Portfolio",
+      "label": "Video Editing & Animation Portfolio"
     }
   ]
 }

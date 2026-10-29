@@ -128,7 +128,7 @@ def check_page(page, dist, docs):
         ok("точки слайдера внутри блока отзывов", len(reviews) < 2 or '</article></div><div class="review-dots"' in rv)
     menu = re.search(r'<div class="services-menu-panel">(.*?)</div>', out, re.S)
     links = re.findall(r'<a href="([^"]+)">', menu.group(1)) if menu else []
-    want = ["/" + p["slug"] + "/" for p in CFG["pages"] if p["slug"] and p["id"] != "contact"]
+    want = ["/" + p["slug"] + "/" for p in CFG["pages"] if p["slug"] and p["id"] not in ("contact", "portfolio")]
     ok("меню Services: только готовые страницы, ссылками", sorted(x for x in links if not x.startswith(("/#", "#"))) == sorted(want)
        and "data-future-url" not in menu.group(1))
     ok("меню закрывается по клику мимо", "details.services-menu[open]" in out)
@@ -162,6 +162,31 @@ def check_page(page, dist, docs):
            and cp.get("url") == page["url"]
            and cp.get("description") == meta(out, r'name="description" content="([^"]*)"')
            and cp.get("mainEntity", {}).get("email") == "belikova.dar@gmail.com")
+    elif page["id"] == "portfolio":
+        blocks = [json.loads(x) for x in re.findall(r'<script type="application/ld\+json">(.*?)</script>', out, re.S)]
+        by_type = {x.get("@type"): x for x in blocks}
+        coll = by_type.get("CollectionPage", {})
+        crumbs = by_type.get("BreadcrumbList", {}).get("itemListElement", [])
+        items = by_type.get("ItemList", {}).get("itemListElement", [])
+        names = [html.unescape(x) for x in re.findall(r'<article class="work"[^>]*>.*?<h3>(.*?)</h3>', out, re.S)]
+        ok("Portfolio: page and breadcrumb schema",
+           len(blocks) == 3 and set(by_type) == {"CollectionPage", "BreadcrumbList", "ItemList"}
+           and coll.get("url") == page["url"]
+           and coll.get("about") == {"@id": "https://dariacuts.com/#person"}
+           and coll.get("author") == {"@id": "https://dariacuts.com/#person"}
+           and len(crumbs) == 2 and crumbs[0].get("name") == "Home"
+           and crumbs[1].get("item") == page["url"])
+        ok("Portfolio: all work cards are represented in ItemList",
+           len(names) == 11 and len(items) == len(names)
+           and [x.get("item", {}).get("name") for x in items] == names)
+        ok("Portfolio: service and contact links",
+           all(f'href="{u}"' in out for u in (
+               "/youtube-video-editing-services/", "/short-form-video-editing/",
+               "/2d-animation-services/", "/motion-graphics-services/", "/contact/")))
+        ok("Portfolio: click-to-play modal without autoplay",
+           "document.createElement('iframe')" in out and "autoplay=1" not in out)
+        ok("Portfolio: Stop Motion original is an external Instagram video",
+           'href="https://www.instagram.com/p/DLFTzZpMyN6/"' in out)
     else:
         blocks = [json.loads(x) for x in re.findall(r'<script type="application/ld\+json">(.*?)</script>', out, re.S)]
         types = [x.get("@type") for x in blocks]
