@@ -43,6 +43,14 @@
       "url": "https://dariacuts.com/motion-graphics-services/",
       "tab": "Motion Graphics",
       "label": "Motion Graphics Services"
+    },
+    {
+      "id": "contact",
+      "src": "pages/contact.html",
+      "slug": "contact",
+      "url": "https://dariacuts.com/contact/",
+      "tab": "Contacts",
+      "label": "Contacts"
     }
   ]
 }

@@ -119,15 +119,16 @@ def check_page(page, dist, docs):
     reviews = json.loads((ROOT / "reviews.json").read_text())
     sec = lambda h: re.search(r'<section[^>]*id="reviews".*?</section>', h, re.S)
     rv = sec(out).group(0) if sec(out) else ""
-    ok("отзывы: только настоящие из reviews.json, дословно",
-       rv.count('class="review"') == len(reviews)
-       and all(html.escape(x, quote=False) in rv for r in reviews for x in r["quote"].split("\n"))
-       and all(html.escape(r["name"]) in rv for r in reviews)
-       and all("<br>".join(html.escape(x, quote=False) for x in r["quote"].split("\n")) in rv for r in reviews))
-    ok("точки слайдера внутри блока отзывов", len(reviews) < 2 or '</article></div><div class="review-dots"' in rv)
+    if page["id"] != "contact":
+        ok("отзывы: только настоящие из reviews.json, дословно",
+           rv.count('class="review"') == len(reviews)
+           and all(html.escape(x, quote=False) in rv for r in reviews for x in r["quote"].split("\n"))
+           and all(html.escape(r["name"]) in rv for r in reviews)
+           and all("<br>".join(html.escape(x, quote=False) for x in r["quote"].split("\n")) in rv for r in reviews))
+        ok("точки слайдера внутри блока отзывов", len(reviews) < 2 or '</article></div><div class="review-dots"' in rv)
     menu = re.search(r'<div class="services-menu-panel">(.*?)</div>', out, re.S)
     links = re.findall(r'<a href="([^"]+)">', menu.group(1)) if menu else []
-    want = ["/" + p["slug"] + "/" for p in CFG["pages"] if p["slug"]]
+    want = ["/" + p["slug"] + "/" for p in CFG["pages"] if p["slug"] and p["id"] != "contact"]
     ok("меню Services: только готовые страницы, ссылками", sorted(x for x in links if not x.startswith(("/#", "#"))) == sorted(want)
        and "data-future-url" not in menu.group(1))
     ok("меню закрывается по клику мимо", "details.services-menu[open]" in out)
@@ -154,6 +155,13 @@ def check_page(page, dist, docs):
         faq = lambda h: [x for x in ld(h) if '"FAQPage"' in x]
         ok("микроразметка главной: блок Алексея дословно + наш FAQ", live_ld in out and faq(out) == faq(src)
            and len(re.findall(r'application/ld\+json', out)) == 2)
+    elif page["id"] == "contact":
+        blocks = [json.loads(x) for x in re.findall(r'<script type="application/ld\+json">(.*?)</script>', out, re.S)]
+        cp = blocks[0] if blocks else {}
+        ok("микроразметка ContactPage", len(blocks) == 1 and cp.get("@type") == "ContactPage"
+           and cp.get("url") == page["url"]
+           and cp.get("description") == meta(out, r'name="description" content="([^"]*)"')
+           and cp.get("mainEntity", {}).get("email") == "belikova.dar@gmail.com")
     else:
         blocks = [json.loads(x) for x in re.findall(r'<script type="application/ld\+json">(.*?)</script>', out, re.S)]
         types = [x.get("@type") for x in blocks]
