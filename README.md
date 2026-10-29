@@ -8,3 +8,5 @@
 
 Новая страница: положить HTML в `pages/`, добавить строку в `site.json`, собрать, проверить.
 Сайт Алексея поменял шапку или шрифты: `python3 tools/build.py --refresh-standard`.
+
+Перед новой партией страниц прочитать досье клиента с разбором прошлых ошибок: ~/WORKSPACE/CLIENTS/dariacuts.com/CLAUDE.md
