@@ -1,0 +1,47 @@
+{
+ "text": "../Страницы услуг Ноябрь 2026/Тексты/Music Video Editing.md",
+ "out": "pages/music-video.html",
+ "wa_text": "Hi Daria! I'd like to discuss a music video.",
+ "service_type": "Music Video Editing",
+ "hero_eyebrow": "Independent video editor · Remote",
+ "hero_benefits": [
+  "Work directly with me",
+  "Cut to the track",
+  "Remote collaboration"
+ ],
+ "hero_video": "Hey – Festival Short",
+ "hero_caption": "Short film post-production by Daria",
+ "videos": {
+  "Hey – Festival Short": {
+   "from": "Hey – Festival Short",
+   "alt": "Hey festival short film thumbnail",
+   "hero_alt": "Hey festival short film, post-production by Daria Belikova",
+   "eyebrow": "Festival short film"
+  },
+  "Kinetic Typography Video": {
+   "from": "Kinetic Typography Video",
+   "alt": "Kinetic Typography Video video thumbnail",
+   "eyebrow": "Animated typography"
+  }
+ },
+ "blocks": {
+  "story": "Editing That Follows the Music and the Story",
+  "formats": "Music Video Editing I Can Help With",
+  "work": "Selected Editing Work and Visual Style",
+  "included": "From Performance Footage to Final Music Video",
+  "process": "How the Music Video Editing Process Works",
+  "about": "A Creative Video Editor for Music Projects",
+  "faq": "Music Video Editing FAQs",
+  "final": "Bring Your Music Video Together"
+ },
+ "eyebrows": {
+  "story": "Music and story",
+  "formats": "What I edit",
+  "work": "Selected work",
+  "included": "Before editing",
+  "process": "From track to final cut",
+  "about": "Direct collaboration",
+  "faq": "Before we start",
+  "final": "Get in touch"
+ }
+}

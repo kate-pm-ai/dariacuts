@@ -1,0 +1,41 @@
+{
+ "text": "../Страницы услуг Ноябрь 2026/Тексты/Podcast Video Editing.md",
+ "out": "pages/podcast.html",
+ "wa_text": "Hi Daria! I'd like to discuss a podcast video.",
+ "service_type": "Podcast Video Editing",
+ "hero_eyebrow": "Independent video editor · Remote",
+ "hero_benefits": [
+  "Work directly with me",
+  "Conversation-led editing",
+  "Remote collaboration"
+ ],
+ "hero_video": "Podcast Episode",
+ "videos": {
+  "Podcast Episode": {
+   "id": "N4qlq2-MyPA",
+   "alt": "Podcast episode video thumbnail",
+   "hero_alt": "Podcast episode edited by Daria Belikova",
+   "eyebrow": "Editing and clean-up"
+  }
+ },
+ "blocks": {
+  "story": "Professional Editing for Your Video Podcast",
+  "formats": "What Podcast Video Editing Can Include",
+  "work": "Podcast Editing Examples",
+  "included": "From Raw Recording to a Finished Episode",
+  "process": "How Podcast Video Editing Works",
+  "about": "Work Directly With a Freelance Video Editor",
+  "faq": "Podcast Video Editing FAQs",
+  "final": "Let’s Edit Your Next Podcast Episode"
+ },
+ "eyebrows": {
+  "story": "Conversation first",
+  "formats": "What I edit",
+  "work": "Selected work",
+  "included": "Post-production",
+  "process": "From message to final episode",
+  "about": "Direct collaboration",
+  "faq": "Before we start",
+  "final": "Get in touch"
+ }
+}

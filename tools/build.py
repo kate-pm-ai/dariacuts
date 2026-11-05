@@ -292,9 +292,11 @@ def build_viewer(docs):
     """Витрина: вкладки по всем страницам + переключатель компьютер/телефон."""
     tpl = (ROOT / "tools" / "viewer.html").read_text()
     pre = CFG["preview_prefix"]
-    nav = "".join(f'<button data-page="{p["id"]}">{html.escape(p["tab"])}</button>' for p in CFG["pages"])
+    # во вкладках только текущая партия: у согласованных страниц в site.json "preview": false
+    shown = [p for p in CFG["pages"] if p.get("preview", True)]
+    nav = "".join(f'<button data-page="{p["id"]}">{html.escape(p["tab"])}</button>' for p in shown)
     js = json.dumps({p["id"]: {"label": p["label"], "src": f'{pre}/{p["slug"] + "/" if p["slug"] else ""}'}
-                     for p in CFG["pages"]}, ensure_ascii=False)
+                     for p in shown}, ensure_ascii=False)
     a = tpl.index('<nav class="pages" aria-label="Страницы">') + len('<nav class="pages" aria-label="Страницы">')
     tpl = tpl[:a] + nav + tpl[tpl.index("</nav>", a):]
     a = tpl.index("const pages=") + len("const pages=")

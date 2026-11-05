@@ -1,0 +1,53 @@
+{
+ "formats_cta_class": "story-quote story-quote-action",
+ "hero_eyebrow": "Independent video editor · Remote",
+ "text": "../Страницы услуг Ноябрь 2026/Тексты/Social Media Video Editing.md",
+ "out": "pages/social-media.html",
+ "wa_text": "Hi Daria! I'd like to discuss social media video editing.",
+ "service_type": "Social Media Video Editing",
+ "hero_benefits": [
+  "Work directly with me",
+  "One visual style",
+  "Remote collaboration"
+ ],
+ "hero_video": "Erizo Coffee",
+ "hero_caption": "Vertical social edit by Daria",
+ "videos": {
+  "Erizo Coffee": {
+   "from": "Erizo Coffee — Barcelona",
+   "alt": "Erizo Coffee vertical social edit thumbnail",
+   "hero_alt": "Erizo Coffee vertical social edit by Daria Belikova",
+   "eyebrow": "Vertical social edit"
+  },
+  "YouTube Comedy Vlog": {
+   "from": "YouTube Comedy Vlog",
+   "alt": "YouTube comedy vlog video thumbnail",
+   "eyebrow": "Long-form editing"
+  },
+  "Kinetic Typography Video": {
+   "from": "Kinetic Typography Video",
+   "alt": "Kinetic Typography Video video thumbnail",
+   "eyebrow": "Motion-led type"
+  }
+ },
+ "blocks": {
+  "story": "Social Videos That Fit Your Content and Your Brand",
+  "formats": "Social Media Videos I Can Edit",
+  "work": "Social Media Video Editing Portfolio",
+  "included": "One Source Video, Several Content Formats",
+  "process": "How Social Media Video Editing Works",
+  "about": "Work Directly With a Freelance Video Editor",
+  "faq": "Social Media Video Editing FAQs",
+  "final": "Make Your Next Social Video Project Happen"
+ },
+ "eyebrows": {
+  "story": "Content and brand",
+  "formats": "What I edit",
+  "work": "Selected work",
+  "included": "Several formats",
+  "process": "From footage to final files",
+  "about": "Direct collaboration",
+  "faq": "Before we start",
+  "final": "Get in touch"
+ }
+}

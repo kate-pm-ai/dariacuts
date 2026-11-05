@@ -10,7 +10,8 @@
       "slug": "",
       "url": "https://dariacuts.com/",
       "tab": "Главная",
-      "label": "Главная"
+      "label": "Главная",
+      "preview": false
     },
     {
       "id": "youtube",
@@ -18,7 +19,8 @@
       "slug": "youtube-video-editing-services",
       "url": "https://dariacuts.com/youtube-video-editing-services/",
       "tab": "YouTube",
-      "label": "YouTube Video Editing"
+      "label": "YouTube Video Editing",
+      "preview": false
     },
     {
       "id": "short-form",
@@ -26,7 +28,8 @@
       "slug": "short-form-video-editing",
       "url": "https://dariacuts.com/short-form-video-editing/",
       "tab": "Short Form",
-      "label": "Short-Form Video Editing"
+      "label": "Short-Form Video Editing",
+      "preview": false
     },
     {
       "id": "2d-animation",
@@ -34,7 +37,8 @@
       "slug": "2d-animation-services",
       "url": "https://dariacuts.com/2d-animation-services/",
       "tab": "2D Animation",
-      "label": "2D Animation Services"
+      "label": "2D Animation Services",
+      "preview": false
     },
     {
       "id": "motion-graphics",
@@ -42,7 +46,48 @@
       "slug": "motion-graphics-services",
       "url": "https://dariacuts.com/motion-graphics-services/",
       "tab": "Motion Graphics",
-      "label": "Motion Graphics Services"
+      "label": "Motion Graphics Services",
+      "preview": false
+    },
+    {
+      "id": "podcast",
+      "src": "pages/podcast.html",
+      "slug": "podcast-video-editing",
+      "url": "https://dariacuts.com/podcast-video-editing/",
+      "tab": "Podcast",
+      "label": "Podcast Video Editing"
+    },
+    {
+      "id": "music-video",
+      "src": "pages/music-video.html",
+      "slug": "music-video-editing",
+      "url": "https://dariacuts.com/music-video-editing/",
+      "tab": "Music Video",
+      "label": "Music Video Editing"
+    },
+    {
+      "id": "instagram-reels",
+      "src": "pages/instagram-reels.html",
+      "slug": "instagram-reels-video-editing",
+      "url": "https://dariacuts.com/instagram-reels-video-editing/",
+      "tab": "Instagram Reels",
+      "label": "Instagram Reels Video Editing"
+    },
+    {
+      "id": "social-media",
+      "src": "pages/social-media.html",
+      "slug": "social-media-video-editing",
+      "url": "https://dariacuts.com/social-media-video-editing/",
+      "tab": "Social Media",
+      "label": "Social Media Video Editing"
+    },
+    {
+      "id": "tiktok",
+      "src": "pages/tiktok.html",
+      "slug": "tiktok-video-editing",
+      "url": "https://dariacuts.com/tiktok-video-editing/",
+      "tab": "TikTok",
+      "label": "TikTok Video Editing"
     },
     {
       "id": "contact",
@@ -50,7 +95,8 @@
       "slug": "contact",
       "url": "https://dariacuts.com/contact/",
       "tab": "Contacts",
-      "label": "Contacts"
+      "label": "Contacts",
+      "preview": false
     },
     {
       "id": "portfolio",
@@ -58,7 +104,8 @@
       "slug": "portfolio",
       "url": "https://dariacuts.com/portfolio/",
       "tab": "Portfolio",
-      "label": "Portfolio"
+      "label": "Portfolio",
+      "preview": false
     }
   ]
 }

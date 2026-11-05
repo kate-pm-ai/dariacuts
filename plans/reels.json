@@ -1,0 +1,48 @@
+{
+ "formats_cta_class": "story-quote story-quote-action",
+ "hero_eyebrow": "Independent video editor · Remote",
+ "text": "../Страницы услуг Ноябрь 2026/Тексты/Instagram Reels Video Editing.md",
+ "out": "pages/instagram-reels.html",
+ "wa_text": "Hi Daria! I'd like to discuss Instagram Reels editing.",
+ "service_type": "Instagram Reels Video Editing",
+ "hero_benefits": [
+  "Work directly with me",
+  "Built for vertical viewing",
+  "Remote collaboration"
+ ],
+ "hero_video": "Erizo Coffee",
+ "hero_caption": "Vertical social edit by Daria",
+ "videos": {
+  "Erizo Coffee": {
+   "from": "Erizo Coffee — Barcelona",
+   "alt": "Erizo Coffee vertical social edit thumbnail",
+   "hero_alt": "Erizo Coffee vertical social edit by Daria Belikova",
+   "eyebrow": "Vertical social edit"
+  },
+  "GrowDiaries – UI Update": {
+   "from": "GrowDiaries — UI Update",
+   "alt": "GrowDiaries UI Update video thumbnail",
+   "eyebrow": "UI animation"
+  }
+ },
+ "blocks": {
+  "story": "Reels That Look Clear, Cohesive and On-Brand",
+  "formats": "What Instagram Reels Editing Can Include",
+  "work": "Instagram Reels Editing Examples",
+  "included": "Edit Reels from a Shoot or Existing Content",
+  "process": "How Instagram Reels Editing Works",
+  "about": "Why Work with a Freelance Reels Video Editor?",
+  "faq": "Instagram Reels Editing FAQs",
+  "final": "Let’s Edit Your Next Instagram Reel"
+ },
+ "eyebrows": {
+  "story": "Every second matters",
+  "formats": "What I edit",
+  "work": "Selected work",
+  "included": "Your material",
+  "process": "From footage to final Reel",
+  "about": "Direct collaboration",
+  "faq": "Before we start",
+  "final": "Get in touch"
+ }
+}
