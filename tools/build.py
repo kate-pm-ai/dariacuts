@@ -29,7 +29,8 @@ def refresh_standard():
     live = urllib.request.urlopen(CFG["site"] + "/").read().decode()
     head = live.split("</head>")[0]
     start = head.index('<link rel="icon" type="image/x-icon"')
-    end = head.index(">", head.index('href="/site.webmanifest"')) + 1
+    # блок иконок как на живой главной: Алексей убрал site.webmanifest (браузер предлагал «открыть как приложение»)
+    end = head.index(">", head.index('name="apple-mobile-web-app-title"')) + 1
     icons = head[start:end]
     p1 = head.index('rel="preload"')
     p1 = head.rindex("<link", 0, p1)
