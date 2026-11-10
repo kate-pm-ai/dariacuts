@@ -111,8 +111,11 @@ def build(plan_path):
     # --- hero
     h = T["hero"]
     tpl_btn_wa = re.search(r'href="(https://wa\.me/[^"]+)"', h).group(1)
-    video = plan["videos"][plan["hero_video"]]
-    if "from" in video:
+    # hero_video: null -> справа только цифры (нет подтвержденной релевантной работы для первого экрана)
+    video = plan["videos"][plan["hero_video"]] if plan.get("hero_video") else None
+    if video is None:
+        hv = None
+    elif "from" in video:
         a = site_work(video["from"])
         hv = {k: re.search(k + r'="([^"]+)"', a).group(1) for k in ("data-video", "data-original")}
         hv["img"] = re.search(r'<img src="([^"]+)"', a).group(1)
@@ -126,11 +129,12 @@ def build(plan_path):
           f'<div class="ctas"><a class="btn btn-primary" href="{wa}" data-contact="whatsapp">{esc(hero["bold"][0][0])}</a>'
           f'<a class="btn btn-ghost" href="#work">{esc(hero["bold"][0][1])}</a></div>'
           f'<p class="first-message">{esc(hero["paras"][1])}</p></div><div class="hero-evidence">'
-          f'<button class="video-launch hero-video" type="button" data-video="{hv["data-video"]}" '
-          f'data-title="{esc(plan["hero_video"])}" data-original="{hv["data-original"]}" '
-          f'aria-label="Play {esc(plan["hero_video"])}"><img src="{hv["img"]}" alt="{esc(video["hero_alt"])}">'
-          f'<span class="video-play" aria-hidden="true">▶</span></button>'
-          f'<p class="video-caption">{esc(plan["hero_video"])} <span>{esc(plan.get("hero_caption", "Video editing by Daria"))}</span></p>'
+          + ("" if hv is None else
+             f'<button class="video-launch hero-video" type="button" data-video="{hv["data-video"]}" '
+             f'data-title="{esc(plan["hero_video"])}" data-original="{hv["data-original"]}" '
+             f'aria-label="Play {esc(plan["hero_video"])}"><img src="{hv["img"]}" alt="{esc(video["hero_alt"])}">'
+             f'<span class="video-play" aria-hidden="true">▶</span></button>'
+             f'<p class="video-caption">{esc(plan["hero_video"])} <span>{esc(plan.get("hero_caption", "Video editing by Daria"))}</span></p>')
           + pick(r'<div class="hero-facts">.*?</div>', h) +
           f'</div></div><div class="wrap hero-context"><p>{esc(hero["paras"][2])}</p></div></section>')
     out.append(hb)
@@ -200,15 +204,29 @@ def build(plan_path):
                f'<p class="eyebrow">{esc(plan["eyebrows"]["process"])}</p><h2>{esc(s["h"])}</h2></div></div>'
                f'<ol class="journey">{steps}</ol><div class="journey-invite">{esc(q)}{btn(wa, b)}</div></div></section>')
 
-    # --- about
+    # --- about: внутренние ссылки из плана (анкор из ТЗ -> только опубликованная страница), каждая один раз
     s = sec("about")
+    links = dict(plan.get("links", []))
+
+    def linkify(p):
+        if not links:
+            return p
+        alt = "|".join(re.escape(esc(a)) for a in sorted(links, key=len, reverse=True))
+        done = set()
+
+        def a(m):
+            if m.group(0) in done:
+                return m.group(0)
+            done.add(m.group(0))
+            return f'<a href="{links[html.unescape(m.group(0))]}">{m.group(0)}</a>'
+        return re.sub(alt, a, p)
     out.append(f'<section class="section"><div class="wrap"><div class="about-grid"><div><p class="eyebrow">{esc(plan["eyebrows"]["about"])}</p>'
                f'<h2>{esc(s["h"])}</h2>' + pick(r'<div class="benefit-tags">.*?</div>', T["about"]) +
-               '</div><div class="about-copy">' + "".join(f'<p class="lead">{esc(p)}</p>' for p in s["paras"]) +
+               '</div><div class="about-copy">' + "".join(f'<p class="lead">{linkify(esc(p))}</p>' for p in s["paras"]) +
                "</div></div></div></section>")
 
-    # --- reviews: блок целиком из шаблона, настоящие отзывы подставляет build.py
-    out.append(T["reviews"])
+    # --- reviews: блок целиком из шаблона, настоящие отзывы подставляет build.py; служебный комментарий шаблона не переносим
+    out.append(re.sub(r"<!-- Placeholder testimonials:.*?-->", "", T["reviews"]))
 
     # --- faq
     s = sec("faq")
@@ -243,6 +261,9 @@ def build(plan_path):
     head = re.sub(r'("serviceType":")[^"]*', lambda m: m.group(1) + plan["service_type"], head)
     tail = "\n".join(lines[foot:])
     tail = tail.replace(tpl_btn_wa, wa).replace(tpl_btn_wa.replace("'", "&#x27;"), wa)
+    # nav-chat в шапке и WhatsApp в подвале шаблона закодированы иначе, чем кнопка Hero («!» вместо %21): меняем все ссылки WhatsApp
+    head = re.sub(r'href="https://wa\.me/[^"]*"', f'href="{wa}"', head)
+    tail = re.sub(r'href="https://wa\.me/[^"]*"', f'href="{wa}"', tail)
     tail = tail.replace("YouTube Video Editing Services", plan["service_type"] + " Services")
     page = head + "\n" + "\n".join(out) + "\n" + tail
     Path(ROOT / plan["out"]).write_text(page)

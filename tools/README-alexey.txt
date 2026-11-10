@@ -13,7 +13,7 @@
 
 Шрифты, фавиконки и og-cover в архив не вложены: они уже лежат на сайте, страницы ссылаются на них по тем же путям, что и живая главная
 - Шрифты: /assets/fonts/*.woff2. Строки preload и блок @font-face скопированы с живой главной без изменений, файлы те же.
-- Фавиконки и манифест: /favicon.ico, /favicon.svg, /favicon-96x96.png, /apple-touch-icon.png, /site.webmanifest. Строки в head скопированы с живой главной.
+- Фавиконки: /favicon.ico, /favicon.svg, /favicon-96x96.png, /apple-touch-icon.png. Строки в head скопированы с живой главной.
 - Картинка для соцсетей: https://dariacuts.com/assets/images/og-cover.webp, в og:image и twitter:image.
 Google Fonts убраны.
 

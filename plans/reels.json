@@ -44,5 +44,15 @@
   "about": "Direct collaboration",
   "faq": "Before we start",
   "final": "Get in touch"
- }
+ },
+ "links": [
+  [
+   "Video Editing Services",
+   "/"
+  ],
+  [
+   "Short-Form Video Editing",
+   "/short-form-video-editing/"
+  ]
+ ]
 }

@@ -37,5 +37,19 @@
   "about": "Direct collaboration",
   "faq": "Before we start",
   "final": "Get in touch"
- }
+ },
+ "links": [
+  [
+   "Video Editing Services",
+   "/"
+  ],
+  [
+   "YouTube Video Editing Services",
+   "/youtube-video-editing-services/"
+  ],
+  [
+   "Short-Form Video Editing",
+   "/short-form-video-editing/"
+  ]
+ ]
 }
