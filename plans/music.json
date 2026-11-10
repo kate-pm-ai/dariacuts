@@ -9,12 +9,13 @@
   "Cut to the track",
   "Remote collaboration"
  ],
- "hero_video": null,
+ "hero_video": "Hey – Festival Short",
  "videos": {
   "Hey – Festival Short": {
    "from": "Hey – Festival Short",
    "alt": "Hey festival short film thumbnail",
-   "eyebrow": "Festival short film"
+   "eyebrow": "Festival short film",
+   "hero_alt": "Hey festival short film, post-production by Daria Belikova"
   },
   "Kinetic Typography Video": {
    "from": "Kinetic Typography Video",
@@ -55,5 +56,6 @@
    "Short-Form Video Editing",
    "/short-form-video-editing/"
   ]
- ]
+ ],
+ "hero_caption": "Short film post-production by Daria"
 }
