@@ -128,7 +128,9 @@ def build(plan_path):
           + "".join(f"<li>{esc(b)}</li>" for b in plan["hero_benefits"]) + "</ul>"
           f'<div class="ctas"><a class="btn btn-primary" href="{wa}" data-contact="whatsapp">{esc(hero["bold"][0][0])}</a>'
           f'<a class="btn btn-ghost" href="#work">{esc(hero["bold"][0][1])}</a></div>'
-          f'<p class="first-message">{esc(hero["paras"][1])}</p></div><div class="hero-evidence">'
+          f'<p class="first-message">{esc(hero["paras"][1])}</p>'
+          # строка «что входит» под кнопками, в левой колонке (замечание Иры 10.11: отдельной строкой под шапкой висела на десктопе)
+          f'<p class="first-message">{esc(hero["paras"][2])}</p></div><div class="hero-evidence">'
           + ("" if hv is None else
              f'<button class="video-launch hero-video" type="button" data-video="{hv["data-video"]}" '
              f'data-title="{esc(plan["hero_video"])}" data-original="{hv["data-original"]}" '
@@ -136,7 +138,7 @@ def build(plan_path):
              f'<span class="video-play" aria-hidden="true">▶</span></button>'
              f'<p class="video-caption">{esc(plan["hero_video"])} <span>{esc(plan.get("hero_caption", "Video editing by Daria"))}</span></p>')
           + pick(r'<div class="hero-facts">.*?</div>', h) +
-          f'</div></div><div class="wrap hero-context"><p>{esc(hero["paras"][2])}</p></div></section>')
+          f'</div></div></section>')
     out.append(hb)
 
     # --- story: H2 + абзацы + цитата-кнопка
