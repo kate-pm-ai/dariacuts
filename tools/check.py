@@ -213,7 +213,10 @@ def check_page(page, dist, docs):
     unprefixed = re.sub(rf'((?:src|href)="){re.escape(p)}/', r"\1/", prev)
     unprefixed = re.sub(rf"(url\(['\"]?){re.escape(p)}/", r"\1/", unprefixed)
     unprefixed = re.sub(r'[ \t]*<meta name="robots" content="[^"]*">\s*\n?', "", unprefixed, count=1)
-    ok("предпросмотр = архив (кроме приставки путей и noindex)", unprefixed == out)
+    # плашки «здесь будет ваше видео» живут только на витрине
+    unprefixed = re.sub(r'<div data-preview-only[^>]*>(<img\b[^>]*>)<span data-preview-only.*?</span></span></div>', r"\1", unprefixed, flags=re.S)
+    ok("в архиве нет плашек витрины", "data-preview-only" not in out)
+    ok("предпросмотр = архив (кроме приставки путей, noindex и плашек витрины)", unprefixed == out)
     return res
 
 

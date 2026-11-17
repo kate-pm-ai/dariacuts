@@ -285,6 +285,20 @@ def with_prefix(text, prefix):
     return re.sub(r"(url\(['\"]?)/(?!/)", rf"\1{prefix}/", text)
 
 
+# Плашка для клиентки только на витрине: временная иллюстрация -> «здесь будет ваше видео».
+# Метку ставит assemble.py (TEMP_ART); в архив для сайта плашка не попадает, check.py это сверяет.
+TEMP_ART_RE = re.compile(r'(<!-- ВРЕМЕННО: иллюстрация вместо видео.*?-->)(<img\b[^>]*>)', re.S)
+PREVIEW_BADGE = ('<span data-preview-only style="position:absolute;top:12px;left:12px;z-index:2;max-width:calc(100% - 24px);'
+                 'background:#f6c344;color:#2c3628;border:2px dashed #2c3628;border-radius:10px;padding:6px 10px;'
+                 'font:800 13px/1.3 Nunito,Arial,sans-serif;text-align:left">Здесь будет ваше ИИ-видео'
+                 '<span style="display:block;font-weight:600;font-size:11px">сейчас временная иллюстрация</span></span>')
+
+
+def preview_badges(text):
+    return TEMP_ART_RE.sub(lambda m: m.group(1) + '<div data-preview-only style="position:relative;width:100%;height:100%">'
+                           + m.group(2) + PREVIEW_BADGE + "</div>", text)
+
+
 def out_path(base, page):
     return base / page["slug"] / "index.html" if page["slug"] else base / "index.html"
 
@@ -325,7 +339,7 @@ def main():
         archive.write_text(ROBOTS_RE.sub("", prod, count=1))
         prev = out_path(docs, page)
         prev.parent.mkdir(parents=True, exist_ok=True)
-        prev.write_text(with_prefix(prod, CFG["preview_prefix"]))
+        prev.write_text(with_prefix(preview_badges(prod), CFG["preview_prefix"]))
     for base in (dist, docs):
         (base / "assets" / "images").mkdir(parents=True, exist_ok=True)
         for fname, data in images.files.items():
