@@ -89,6 +89,19 @@ def split_cta(pair):
     return s[:q].strip(), s[q:].strip()
 
 
+TEMP_ART = "<!-- ВРЕМЕННО: иллюстрация вместо видео. Когда у клиентки будет сгенерированное ИИ-видео, на этом месте должно стоять оно. -->"
+
+
+def art_html(path, alt, eager=False):
+    """Иллюстрация вместо видео: svg встраивается кодом, растровая картинка - тегом img из pages/img/ (build.py переводит в avif).
+    Перед каждой ставится комментарий TEMP_ART: место под будущее видео."""
+    if path.endswith(".svg"):
+        return TEMP_ART + (ROOT / path).read_text().strip()
+    if not (path.startswith("pages/img/") and (ROOT / path).exists()):
+        raise SystemExit(f"нет иллюстрации {path} (растровые кладутся в pages/img/)")
+    return TEMP_ART + f'<img src="img/{path[len("pages/img/"):]}" alt="{esc(alt)}"' + ("" if eager else ' loading="lazy"') + ">"
+
+
 def build(plan_path):
     plan = json.loads(Path(plan_path).read_text())
     meta, hero, secs = parse_md(ROOT / plan["text"])
@@ -116,7 +129,7 @@ def build(plan_path):
     if plan.get("hero_art"):
         # инфографика вместо видео (нет подтвержденных работ по услуге): svg из файла встраивается в код страницы
         hv, video = None, None
-        art_hero = (f'<div class="hero-video">{(ROOT / plan["hero_art"]).read_text().strip()}</div>'
+        art_hero = (f'<div class="hero-video">{art_html(plan["hero_art"], plan.get("hero_art_alt", ""), eager=True)}</div>'
                     f'<p class="video-caption">{esc(plan["hero_art_caption"])}</p>')
     elif video is None:
         hv = None
@@ -173,7 +186,7 @@ def build(plan_path):
     for it in s["items"]:
         v = plan["videos"][it["h"]]
         if "art" in v:
-            works += (f'<article class="work"><div class="work-media">{(ROOT / v["art"]).read_text().strip()}</div>'
+            works += (f'<article class="work"><div class="work-media">{art_html(v["art"], v.get("alt", ""))}</div>'
                       f'<div class="work-copy"><p class="eyebrow">{esc(v["eyebrow"])}</p><h3>{esc(it["h"])}</h3>'
                       + "".join(f"<p>{esc(p)}</p>" for p in it["p"]) + "</div></article>")
             continue

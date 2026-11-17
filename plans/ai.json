@@ -10,21 +10,24 @@
   "Remote collaboration"
  ],
  "hero_video": null,
- "hero_art": "art/ai-hero.svg",
+ "hero_art": "pages/img/ai-hero.webp",
  "hero_art_caption": "How an AI video comes together",
  "final_ghost": "See How It Works",
  "videos": {
   "What AI Generates": {
-   "art": "art/ai-work-1.svg",
-   "eyebrow": "Generation"
+   "art": "pages/img/ai-work-1.webp",
+   "eyebrow": "Generation",
+   "alt": "Illustration of many fantasy scenes growing from a single idea"
   },
   "What I Direct & Edit": {
-   "art": "art/ai-work-2.svg",
-   "eyebrow": "Direction and editing"
+   "art": "pages/img/ai-work-2.webp",
+   "eyebrow": "Direction and editing",
+   "alt": "Illustration of an editor choosing frames and arranging them in order"
   },
   "What You Receive": {
-   "art": "art/ai-work-3.svg",
-   "eyebrow": "Final files"
+   "art": "pages/img/ai-work-3.webp",
+   "eyebrow": "Final files",
+   "alt": "Illustration of one story shown on a wide screen, a phone and a square screen"
   }
  },
  "blocks": {
@@ -60,5 +63,6 @@
    "Video Editing Services",
    "/"
   ]
- ]
+ ],
+ "hero_art_alt": "Illustration of an editor cutting film as fantasy scenes flow from an idea into a finished video"
 }
