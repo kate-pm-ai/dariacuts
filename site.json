@@ -95,6 +95,14 @@
       "label": "TikTok Video Editing"
     },
     {
+      "id": "ai-video",
+      "src": "pages/ai-video.html",
+      "slug": "ai-video-production",
+      "url": "https://dariacuts.com/ai-video-production/",
+      "tab": "AI Video",
+      "label": "AI Video Production"
+    },
+    {
       "id": "contact",
       "src": "pages/contact.html",
       "slug": "contact",

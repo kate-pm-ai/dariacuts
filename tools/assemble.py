@@ -113,7 +113,12 @@ def build(plan_path):
     tpl_btn_wa = re.search(r'href="(https://wa\.me/[^"]+)"', h).group(1)
     # hero_video: null -> справа только цифры (нет подтвержденной релевантной работы для первого экрана)
     video = plan["videos"][plan["hero_video"]] if plan.get("hero_video") else None
-    if video is None:
+    if plan.get("hero_art"):
+        # инфографика вместо видео (нет подтвержденных работ по услуге): svg из файла встраивается в код страницы
+        hv, video = None, None
+        art_hero = (f'<div class="hero-video">{(ROOT / plan["hero_art"]).read_text().strip()}</div>'
+                    f'<p class="video-caption">{esc(plan["hero_art_caption"])}</p>')
+    elif video is None:
         hv = None
     elif "from" in video:
         a = site_work(video["from"])
@@ -131,7 +136,7 @@ def build(plan_path):
           f'<p class="first-message">{esc(hero["paras"][1])}</p>'
           # строка «что входит» под кнопками, в левой колонке (замечание Иры 10.11: отдельной строкой под шапкой висела на десктопе)
           f'<p class="first-message">{esc(hero["paras"][2])}</p></div><div class="hero-evidence">'
-          + ("" if hv is None else
+          + (art_hero if plan.get("hero_art") else "" if hv is None else
              f'<button class="video-launch hero-video" type="button" data-video="{hv["data-video"]}" '
              f'data-title="{esc(plan["hero_video"])}" data-original="{hv["data-original"]}" '
              f'aria-label="Play {esc(plan["hero_video"])}"><img src="{hv["img"]}" alt="{esc(video["hero_alt"])}">'
@@ -167,6 +172,11 @@ def build(plan_path):
     works = ""
     for it in s["items"]:
         v = plan["videos"][it["h"]]
+        if "art" in v:
+            works += (f'<article class="work"><div class="work-media">{(ROOT / v["art"]).read_text().strip()}</div>'
+                      f'<div class="work-copy"><p class="eyebrow">{esc(v["eyebrow"])}</p><h3>{esc(it["h"])}</h3>'
+                      + "".join(f"<p>{esc(p)}</p>" for p in it["p"]) + "</div></article>")
+            continue
         if "from" in v:
             a = site_work(v["from"])
             a = re.sub(r'data-title="[^"]*"', f'data-title="{esc(it["h"])}"', a)
@@ -244,7 +254,7 @@ def build(plan_path):
                f'<h2>{esc(s["h"])}</h2><p class="lead">{esc(s["paras"][0])}</p>'
                + pick(r'<div class="contact-next">.*?</div>', f) +
                f'<div class="ctas"><a class="btn btn-primary" href="{wa}" data-contact="whatsapp">{esc(s["bold"][0][0])}</a>'
-               f'<a class="btn btn-ghost" href="#work">View My Work</a></div>'
+               f'<a class="btn btn-ghost" href="#work">{esc(plan.get("final_ghost", "View My Work"))}</a></div>'
                + f[f.index('<p class="contact-alternatives">'):])
 
     # --- шапка: мета, адрес, FAQ-разметка; подвал: текст в WhatsApp

@@ -7,10 +7,11 @@ ROOT = Path(__file__).resolve().parent.parent
 CFG = json.loads((ROOT / "site.json").read_text())
 OLD = ["youtube", "short-form", "2d-animation", "motion-graphics"]
 SPEC = json.loads((ROOT.parent / "Страницы услуг Ноябрь 2026" / "tools" / "spec.json").read_text())
-SPEC_ID = {"music-video": "music", "instagram-reels": "reels", "social-media": "social", "tiktok": "tiktok"}
+SPEC_ID = {"ai-video": "ai", "music-video": "music", "instagram-reels": "reels", "social-media": "social", "tiktok": "tiktok"}
 page = {p["id"]: p for p in CFG["pages"]}
 built = lambda pid: (ROOT / "docs" / page[pid]["slug"] / "index.html").read_text()
-norm = lambda s: re.sub(r"\s+", " ", html.unescape(re.sub(r"<[^>]+>", " ", s))).strip()
+# ссылка внутри абзаца не разрывает текст: </a>, -> «Services,», а не «Services ,»
+norm = lambda s: re.sub(r"\s+", " ", html.unescape(re.sub(r"<[^>]+>", " ", re.sub(r"</?a\b[^>]*>", "", s)))).strip()
 
 
 def classes(s):

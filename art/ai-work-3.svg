@@ -1,0 +1,6 @@
+<svg viewBox="0 0 320 180" width="100%" height="100%" role="img" aria-label="Finished video delivered in several formats" xmlns="http://www.w3.org/2000/svg" font-family="'Nunito',Arial,sans-serif" font-weight="700">
+<rect width="320" height="180" fill="#404e3b"/>
+<rect x="34" y="40" width="136" height="80" rx="8" fill="#bac8b1"/><path d="M92 64v32l26-16z" fill="#2c3628"/><text x="102" y="142" fill="#d5dfcf" font-size="14" text-anchor="middle">16:9</text>
+<rect x="190" y="30" width="54" height="96" rx="8" fill="#d5dfcf"/><path d="M210 66v24l18-12z" fill="#2c3628"/><text x="217" y="148" fill="#d5dfcf" font-size="14" text-anchor="middle">9:16</text>
+<rect x="258" y="58" width="44" height="44" rx="7" fill="#7b9669"/><path d="M274 70v20l14-10z" fill="#ffffff"/><text x="280" y="124" fill="#d5dfcf" font-size="14" text-anchor="middle">1:1</text>
+</svg>

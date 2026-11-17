@@ -1,0 +1,64 @@
+{
+ "text": "../Страницы услуг Ноябрь 2026/Тексты/AI Video Production.md",
+ "out": "pages/ai-video.html",
+ "wa_text": "Hi Daria! I'd like to discuss an AI video project.",
+ "service_type": "AI Video Production",
+ "hero_eyebrow": "Independent video editor · Remote",
+ "hero_benefits": [
+  "Work directly with me",
+  "AI scenes + human editing",
+  "Remote collaboration"
+ ],
+ "hero_video": null,
+ "hero_art": "art/ai-hero.svg",
+ "hero_art_caption": "How an AI video comes together",
+ "final_ghost": "See How It Works",
+ "videos": {
+  "What AI Generates": {
+   "art": "art/ai-work-1.svg",
+   "eyebrow": "Generation"
+  },
+  "What I Direct & Edit": {
+   "art": "art/ai-work-2.svg",
+   "eyebrow": "Direction and editing"
+  },
+  "What You Receive": {
+   "art": "art/ai-work-3.svg",
+   "eyebrow": "Final files"
+  }
+ },
+ "blocks": {
+  "story": "AI-Generated Video, Guided by Creative Direction",
+  "formats": "AI Video Content for Different Creative Needs",
+  "work": "Where AI Generation Meets Human Editing",
+  "included": "What Goes Into AI Video Production?",
+  "process": "How an AI Video Production Project Works",
+  "about": "Work Directly With a Freelance AI Video Creator",
+  "faq": "AI Video Production FAQs",
+  "final": "Bring Your AI Video Idea to Life"
+ },
+ "eyebrows": {
+  "story": "Creative direction",
+  "formats": "What I create",
+  "work": "How it comes together",
+  "included": "Project scope",
+  "process": "From idea to final video",
+  "about": "Direct collaboration",
+  "faq": "Before we start",
+  "final": "Get in touch"
+ },
+ "links": [
+  [
+   "Motion Graphics Services",
+   "/motion-graphics-services/"
+  ],
+  [
+   "2D Animation Services",
+   "/2d-animation-services/"
+  ],
+  [
+   "Video Editing Services",
+   "/"
+  ]
+ ]
+}
