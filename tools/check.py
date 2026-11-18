@@ -216,7 +216,13 @@ def check_page(page, dist, docs):
     # плашки «здесь будет ваше видео» живут только на витрине
     unprefixed = re.sub(r'<div data-preview-only[^>]*>(<img\b[^>]*>)<span data-preview-only.*?</span></span></div>', r"\1", unprefixed, flags=re.S)
     ok("в архиве нет плашек витрины", "data-preview-only" not in out)
-    ok("предпросмотр = архив (кроме приставки путей, noindex и плашек витрины)", unprefixed == out)
+    # внешние ссылки витрины: новая вкладка (инцидент 18.11: WhatsApp в рамке = пустой зеленый экран)
+    framed = [m.group(1) for m in re.finditer(r'<a\s[^>]*href="(https?://[^"]+)"[^>]*>', prev)
+              if " target=" not in m.group(0) and "kate-pm-ai.github.io" not in m.group(1)]
+    ok("на витрине внешние ссылки открываются в новой вкладке", not framed, ", ".join(sorted(set(framed))[:5]))
+    ok("в архиве нет отметок витрины у ссылок", "data-preview-target" not in out)
+    unprefixed = re.sub(r'<a data-preview-target target="_blank"( rel="noopener")? ', "<a ", unprefixed)
+    ok("предпросмотр = архив (кроме приставки путей, noindex, плашек и вкладок витрины)", unprefixed == out)
     return res
 
 

@@ -65,8 +65,13 @@ def pick(pattern, s):
     return m.group(0)
 
 
-def btn(href_wa, label):
-    return (f'<div class="ctas"><a class="btn btn-primary" href="{href_wa}" '
+# Темная кнопка на шалфейной плашке: цвета варианта story-quote-action со страницы Short-Form живого сайта.
+# Шалфейная кнопка на шалфейной плашке читалась как надпись (Кейт, 18.11.2026).
+DARK_BTN = ' style="background:var(--c-forest);color:var(--c-paper);border-color:var(--c-forest)"'
+
+
+def btn(href_wa, label, dark=False):
+    return (f'<div class="ctas"><a class="btn btn-primary"{DARK_BTN if dark else ""} href="{href_wa}" '
             f'data-contact="whatsapp">{esc(label)}</a></div>')
 
 
@@ -164,7 +169,7 @@ def build(plan_path):
     q, b = split_cta(s["bold"][0])
     out.append(f'<section class="section"><div class="wrap story-grid"><div><p class="eyebrow">{esc(plan["eyebrows"]["story"])}</p>'
                f'<h2>{esc(s["h"])}</h2>' + "".join(f'<p class="lead">{esc(p)}</p>' for p in s["paras"]) +
-               f'</div><div class="story-quote">{esc(q)}{btn(wa, b)}</div></div></section>')
+               f'</div><div class="story-quote">{esc(q)}{btn(wa, b, dark=plan.get("story_dark_btn", False))}</div></div></section>')
 
     icons = re.findall(r'<article class="service">(<svg.*?</svg>)', T["formats"] + T["included"], re.S)
 

@@ -51,5 +51,7 @@
    "Short-Form Video Editing",
    "/short-form-video-editing/"
   ]
- ]
+ ],
+ "formats_cta_class": "story-quote story-quote-action",
+ "story_dark_btn": true
 }

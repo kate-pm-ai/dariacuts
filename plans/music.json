@@ -57,5 +57,7 @@
    "/short-form-video-editing/"
   ]
  ],
- "hero_caption": "Short film post-production by Daria"
+ "hero_caption": "Short film post-production by Daria",
+ "formats_cta_class": "story-quote story-quote-action",
+ "story_dark_btn": true
 }

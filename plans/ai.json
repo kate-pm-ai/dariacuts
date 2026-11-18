@@ -64,5 +64,7 @@
    "/"
   ]
  ],
- "hero_art_alt": "Illustration of an editor cutting film as fantasy scenes flow from an idea into a finished video"
+ "hero_art_alt": "Illustration of an editor cutting film as fantasy scenes flow from an idea into a finished video",
+ "formats_cta_class": "story-quote story-quote-action",
+ "story_dark_btn": true
 }

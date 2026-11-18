@@ -299,6 +299,21 @@ def preview_badges(text):
                            + m.group(2) + PREVIEW_BADGE + "</div>", text)
 
 
+# Витрина показывает страницу в рамке, а WhatsApp, Instagram, LinkedIn запрещают открываться внутри чужой рамки:
+# клик давал пустой зеленый экран (инцидент 18.11.2026). На витрине внешние ссылки без target открываются в новой вкладке.
+# В архиве для сайта ссылки как у Алексея, без target; check.py это сверяет.
+PREVIEW_TARGET = '<a data-preview-target target="_blank" rel="noopener" '
+
+
+def preview_external_targets(text):
+    def fix(m):
+        tag = m.group(0)
+        if " target=" in tag or "kate-pm-ai.github.io" in tag:
+            return tag
+        return PREVIEW_TARGET + tag[3:] if " rel=" not in tag else '<a data-preview-target target="_blank" ' + tag[3:]
+    return re.sub(r'<a\s[^>]*href="https?://[^"]+"[^>]*>', fix, text)
+
+
 def out_path(base, page):
     return base / page["slug"] / "index.html" if page["slug"] else base / "index.html"
 
@@ -339,7 +354,7 @@ def main():
         archive.write_text(ROBOTS_RE.sub("", prod, count=1))
         prev = out_path(docs, page)
         prev.parent.mkdir(parents=True, exist_ok=True)
-        prev.write_text(with_prefix(preview_badges(prod), CFG["preview_prefix"]))
+        prev.write_text(with_prefix(preview_external_targets(preview_badges(prod)), CFG["preview_prefix"]))
     for base in (dist, docs):
         (base / "assets" / "images").mkdir(parents=True, exist_ok=True)
         for fname, data in images.files.items():
