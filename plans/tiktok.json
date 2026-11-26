@@ -10,19 +10,19 @@
   "Built for vertical viewing",
   "Remote collaboration"
  ],
- "hero_video": "BX1 Strain – Fast Buds",
- "hero_caption": "Motion design by Daria",
+ "hero_video": "Kinetic Typography Video",
+ "hero_caption": "Motion-led type by Daria",
  "videos": {
-  "BX1 Strain – Fast Buds": {
-   "from": "BX1 Strain — Fast Buds",
-   "alt": "BX1 Strain Fast Buds video thumbnail",
-   "hero_alt": "BX1 Strain Fast Buds short-form video by Daria Belikova",
-   "eyebrow": "Motion design"
-  },
   "Kinetic Typography Video": {
    "from": "Kinetic Typography Video",
    "alt": "Kinetic Typography Video video thumbnail",
+   "hero_alt": "Kinetic typography video by Daria Belikova",
    "eyebrow": "Motion-led type"
+  },
+  "Erizo Coffee": {
+   "from": "Erizo Coffee — Barcelona",
+   "alt": "Erizo Coffee vertical social edit thumbnail",
+   "eyebrow": "Vertical social edit"
   }
  },
  "blocks": {
