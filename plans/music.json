@@ -9,7 +9,11 @@
   "Cut to the track",
   "Remote collaboration"
  ],
- "hero_video": "Hey – Festival Short",
+ "hero_video": null,
+ "hero_art": "pages/img/music-video-collage.png",
+ "hero_art_alt": "Collage of a live music performance filmed by Daria Belikova",
+ "hero_art_caption": "Live music performance filmed by Daria",
+ "hero_art_temporary": false,
  "videos": {
   "Hey – Festival Short": {
    "from": "Hey – Festival Short",

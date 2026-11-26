@@ -11,21 +11,25 @@
  ],
  "hero_video": null,
  "hero_art": "pages/img/ai-hero.webp",
+ "hero_art_temporary": false,
  "hero_art_caption": "How an AI video comes together",
  "final_ghost": "See How It Works",
  "videos": {
   "What AI Generates": {
    "art": "pages/img/ai-work-1.webp",
+   "temporary": false,
    "eyebrow": "Generation",
    "alt": "Illustration of many fantasy scenes growing from a single idea"
   },
   "What I Direct & Edit": {
    "art": "pages/img/ai-work-2.webp",
+   "temporary": false,
    "eyebrow": "Direction and editing",
    "alt": "Illustration of an editor choosing frames and arranging them in order"
   },
   "What You Receive": {
    "art": "pages/img/ai-work-3.webp",
+   "temporary": false,
    "eyebrow": "Final files",
    "alt": "Illustration of one story shown on a wide screen, a phone and a square screen"
   }

@@ -23,6 +23,7 @@ GOOGLE_FONTS_RE = re.compile(
 ROBOTS_RE = re.compile(r'[ \t]*<meta name="robots" content="[^"]*">\s*\n?')
 DATA_IMG_RE = re.compile(r'<img\b[^>]*?\ssrc="data:image/[a-z+]+;base64,([^"]+)"[^>]*>')
 LOCAL_IMG_RE = re.compile(r'<img\b[^>]*?\ssrc="img/([^"]+)"[^>]*>')
+BUILT_IMG_RE = re.compile(r'/assets/images/([^"\')]+)')
 
 
 def refresh_standard():
@@ -372,8 +373,35 @@ def main():
         for f in sorted(dist.rglob("*")):
             if f.is_file():
                 z.write(f, f.relative_to(dist))
+
+    # Отдельный дельта-пакет для Алексея: только текущие шесть страниц и нужные им изображения.
+    delivery_pages = [p for p in CFG["pages"] if p.get("preview", True)]
+    delta = ROOT / "dist" / f"dariacuts-six-pages-{stamp}"
+    if delta.exists():
+        shutil.rmtree(delta)  # каталог целиком генерируется этим скриптом
+    delivery_images = set()
+    for page in delivery_pages:
+        prod = ROBOTS_RE.sub("", built[page["id"]], count=1)
+        target = out_path(delta, page)
+        target.parent.mkdir(parents=True, exist_ok=True)
+        target.write_text(prod)
+        delivery_images.update(BUILT_IMG_RE.findall(prod))
+    image_dir = delta / "assets" / "images"
+    image_dir.mkdir(parents=True, exist_ok=True)
+    for fname in sorted(delivery_images):
+        if fname in images.files:
+            (image_dir / fname).write_bytes(images.files[fname])
+    delta_pages = "\n".join(f"  {p['url']}  ->  {out_path(Path(''), p)}" for p in delivery_pages)
+    delta_images = "\n".join(f"  assets/images/{f}" for f in sorted(delivery_images) if f in images.files)
+    delta_readme = (ROOT / "tools" / "README-alexey-six-pages.txt").read_text()
+    (delta / "README.txt").write_text(delta_readme.format(pages=delta_pages, images=delta_images))
+    delta_zip = delta.with_suffix(".zip")
+    with zipfile.ZipFile(delta_zip, "w", zipfile.ZIP_DEFLATED) as z:
+        for f in sorted(delta.rglob("*")):
+            if f.is_file():
+                z.write(f, f.relative_to(delta))
     print(f"страниц: {len(built)}, картинок: {len(images.files)}")
-    print(f"предпросмотр: {docs}\nархив: {zpath}")
+    print(f"предпросмотр: {docs}\nполный архив: {zpath}\nархив шести страниц: {delta_zip}")
 
 
 if __name__ == "__main__":
