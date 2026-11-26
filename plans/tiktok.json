@@ -10,19 +10,19 @@
   "Built for vertical viewing",
   "Remote collaboration"
  ],
- "hero_video": "Kinetic Typography Video",
- "hero_caption": "Motion-led type by Daria",
+ "hero_video": "Erizo Coffee",
+ "hero_caption": "Vertical social edit by Daria",
  "videos": {
-  "Kinetic Typography Video": {
-   "from": "Kinetic Typography Video",
-   "alt": "Kinetic Typography Video video thumbnail",
-   "hero_alt": "Kinetic typography video by Daria Belikova",
-   "eyebrow": "Motion-led type"
-  },
   "Erizo Coffee": {
    "from": "Erizo Coffee — Barcelona",
    "alt": "Erizo Coffee vertical social edit thumbnail",
+   "hero_alt": "Erizo Coffee vertical social edit by Daria Belikova",
    "eyebrow": "Vertical social edit"
+  },
+  "GrowDiaries – UI Update": {
+   "from": "GrowDiaries — UI Update",
+   "alt": "GrowDiaries UI Update video thumbnail",
+   "eyebrow": "UI animation"
   }
  },
  "blocks": {
